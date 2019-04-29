@@ -1,0 +1,16 @@
+Import-Module ActiveDirectory
+
+$userlist = Import-CSV "C:\Scripts\AddUsers.csv"
+
+foreach ($user in $userlist) 
+{
+    $username = $user.Username
+    $firstname = $user.FirstName
+    $lastname = $user.LastName
+    $description = $user.Description
+    $ou = $user.OUPath
+    $password = $user.Password
+    $action = $user.Action
+    
+    New-ADUser -Name $username -GivenName $firstname -Surname $lastname -Description $description -Path $ou -AccountPassword (ConvertTo-SecureString $Password -AsPlainText -Force) -ChangePasswordAtLogon $true
+}
